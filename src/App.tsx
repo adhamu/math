@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Global, css } from '@emotion/core'
 
 const GlobalStyle = css`
@@ -18,35 +18,20 @@ type Answer = {
 }
 
 const App = (): JSX.Element => {
-  const questions = [
-    {
-      a: 1,
-      operator: '+',
-      b: 1,
-      answer: 2,
-    },
-    {
-      a: 1,
-      operator: '+',
-      b: 2,
-      answer: 3,
-    },
-    {
-      a: 1,
-      operator: '+',
-      b: 3,
-      answer: 4,
-    },
-    {
-      a: 1,
-      operator: '+',
-      b: 4,
-      answer: 5,
-    },
-  ]
-
   const [userAnswers, setUserAnswers] = useState<Answer>()
   const [showResults, setShowResults] = useState(false)
+  const [questions, setQuestions] = useState([])
+  const [operator, setOperator] = useState('+')
+
+  useEffect(() => {
+    setQuestions(generateRandomQuestions())
+  }, [])
+
+  useEffect(() => {
+    setUserAnswers({})
+    setShowResults(false)
+    setQuestions(generateRandomQuestions())
+  }, [operator])
 
   const storeAnswer = (question: number, answer: string) => {
     setShowResults(false)
@@ -56,11 +41,38 @@ const App = (): JSX.Element => {
     })
   }
 
+  const addMode = () => setOperator('+')
+  const subtractMode = () => setOperator('-')
+
+  const calculateAnswer = (a: number, b: number) =>
+    // eslint-disable-next-line no-eval
+    eval(`${a} ${operator} ${b}`)
+
+  const generateRandomQuestions = () =>
+    Array.from({ length: 30 }).map(() => {
+      const a = Math.floor(Math.random() * 20) + 1
+      const b = Math.floor(Math.random() * 20) + 1
+
+      return {
+        a,
+        operator: operator,
+        b,
+        answer: calculateAnswer(a, b),
+      }
+    })
+
+  const generateQuestions = (pow: number) =>
+    Array.from({ length: 30 }).map((_, i) => ({
+      a: i,
+      operator: operator,
+      b: pow,
+      answer: calculateAnswer(i, pow),
+    }))
+
   return (
     <>
       <Global styles={GlobalStyle} />
       <h1>Maths Questions</h1>
-
       {questions.map((question, key) => (
         <React.Fragment key={key}>
           {question.a} {question.operator} {question.b} ={' '}
@@ -69,12 +81,29 @@ const App = (): JSX.Element => {
             onChange={e => storeAnswer(key, e.target.value)}
           />
           {showResults && (
-            <span>{userAnswers[key] === true ? 'Correct' : 'Incorrect'}</span>
+            <span>
+              {key in userAnswers &&
+                (userAnswers[key] === true ? 'Correct' : 'Incorrect')}
+            </span>
           )}
           <hr />
         </React.Fragment>
       ))}
-      <button onClick={() => userAnswers && setShowResults(!showResults)}>Show Results</button>
+      <button onClick={() => userAnswers && setShowResults(!showResults)}>
+        Show Results
+      </button>
+      <button onClick={() => setQuestions(generateRandomQuestions())}>
+        Generate Random Questions
+      </button>
+      <button onClick={() => addMode()}>Adding</button>
+      <button onClick={() => subtractMode()}>Subtracting</button>
+      {Array.from({ length: 15 }).map((_, key) => (
+        <button
+          key={key}
+          onClick={() => setQuestions(generateQuestions(key + 1))}>
+          {key + 1}
+        </button>
+      ))}
     </>
   )
 }
