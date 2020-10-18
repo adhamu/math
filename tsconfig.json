@@ -10,7 +10,9 @@
     "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
-      "@global/*": ["src/*"]
+      "@global/*": ["src/*"],
+      "@layout/*": ["src/layout/*"],
+      "@components/*": ["src/components/*"]
     }
   }
 }

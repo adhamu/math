@@ -31,6 +31,8 @@ const config: webpack.Configuration = {
     extensions: ['.tsx', '.ts', '.js'],
     alias: {
       '@global': path.resolve(__dirname, 'src/'),
+      '@layout': path.resolve(__dirname, 'src/layout/'),
+      '@components': path.resolve(__dirname, 'src/components/'),
     },
   },
   output: {

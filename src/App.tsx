@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { Global, css } from '@emotion/core'
+import styled from '@emotion/styled'
+import Header from '@layout/Header'
+import Container from '@layout/Container'
+import Questions from '@components/Questions'
 
 const GlobalStyle = css`
   * {
@@ -7,11 +11,40 @@ const GlobalStyle = css`
     margin: 0;
   }
   body {
-    font-family: 'Open Sans', cursive;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+      sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     font-size: 16px;
     line-height: 28px;
+    color: #000;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial,
+      sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+    font-weight: bold;
   }
 `
+
+const Button = styled.button`
+  background: purple;
+  color: #fff;
+  padding: 10px 15px;
+  border-radius: 4px;
+  font-weight: bold;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+`
+
+const ShowResults = styled(Button)`
+  background: green;
+`
+
+const Main = styled.div``
 
 type Answer = {
   [key in number]: boolean
@@ -28,10 +61,13 @@ const App = (): JSX.Element => {
   }, [])
 
   useEffect(() => {
-    setUserAnswers({})
-    setShowResults(false)
     setQuestions(generateRandomQuestions())
   }, [operator])
+
+  useEffect(() => {
+    setUserAnswers({})
+    setShowResults(false)
+  }, [questions])
 
   const storeAnswer = (question: number, answer: string) => {
     setShowResults(false)
@@ -70,41 +106,52 @@ const App = (): JSX.Element => {
     }))
 
   return (
-    <>
+    <Main>
       <Global styles={GlobalStyle} />
-      <h1>Maths Questions</h1>
-      {questions.map((question, key) => (
-        <React.Fragment key={key}>
-          {question.a} {question.operator} {question.b} ={' '}
-          <input
-            type="number"
-            onChange={e => storeAnswer(key, e.target.value)}
-          />
-          {showResults && (
-            <span>
-              {key in userAnswers &&
-                (userAnswers[key] === true ? 'Correct' : 'Incorrect')}
-            </span>
-          )}
-          <hr />
-        </React.Fragment>
-      ))}
-      <button onClick={() => userAnswers && setShowResults(!showResults)}>
-        Show Results
-      </button>
-      <button onClick={() => setQuestions(generateRandomQuestions())}>
-        Generate Random Questions
-      </button>
-      <button onClick={() => addMode()}>Adding</button>
-      <button onClick={() => subtractMode()}>Subtracting</button>
-      {Array.from({ length: 15 }).map((_, key) => (
-        <button
-          key={key}
-          onClick={() => setQuestions(generateQuestions(key + 1))}>
-          {key + 1}
-        </button>
-      ))}
-    </>
+      <Header />
+      <Container>
+        <>
+          <Button onClick={() => setQuestions(generateRandomQuestions())}>
+            Generate Random Questions
+          </Button>
+          <br />
+          <label>
+            Adding{' '}
+            <input type="radio" checked={operator === '+'} onClick={addMode} />
+          </label>
+          <label>
+            Subtracting{' '}
+            <input
+              type="radio"
+              checked={operator === '-'}
+              onClick={subtractMode}
+            />
+          </label>
+          <br />
+          {Array.from({ length: 15 }).map((_, key) => (
+            <Button
+              key={key}
+              onClick={() => {
+                setQuestions(generateQuestions(key + 1))
+                setUserAnswers({})
+              }}>
+              {key + 1}
+            </Button>
+          ))}
+          <br />
+          <ShowResults
+            onClick={() => userAnswers && setShowResults(!showResults)}>
+            Show Results
+          </ShowResults>
+        </>
+      </Container>
+      <Questions
+        questions={questions}
+        storeAnswer={storeAnswer}
+        showResults={showResults}
+        userAnswers={userAnswers}
+      />
+    </Main>
   )
 }
 
