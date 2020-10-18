@@ -1,6 +1,6 @@
-import * as path from 'path'
-import * as HtmlWebPackPlugin from 'html-webpack-plugin'
-import * as webpack from 'webpack'
+import path from 'path'
+import HtmlWebPackPlugin from 'html-webpack-plugin'
+import webpack from 'webpack'
 
 const config: webpack.Configuration = {
   entry: './src/index.tsx',
