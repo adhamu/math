@@ -5,6 +5,7 @@ import Header from '@layout/Header'
 import Container from '@layout/Container'
 import Questions from '@components/Questions'
 import { Answer, Question } from './types'
+import OperatorToggle from './components/OperatorToggle'
 
 const GlobalStyle = css`
   * {
@@ -117,6 +118,20 @@ const App = (): JSX.Element => {
             Generate Random Questions
           </Button>
           <br />
+          <OperatorToggle
+            options={[
+              {
+                name: 'Adding',
+                checked: operator === '+',
+                onChange: () => addMode(),
+              },
+              {
+                name: 'Subtracting',
+                checked: operator === '-',
+                onChange: () => subtractMode(),
+              },
+            ]}
+          />
           <label>
             Adding{' '}
             <input type="radio" checked={operator === '+'} onClick={addMode} />
