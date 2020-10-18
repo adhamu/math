@@ -1,28 +1,22 @@
 import React from 'react'
 import Container from '@layout/Container'
 import styled from '@emotion/styled'
+import { Answer, Question } from '@global/types'
 
-const Question = styled.div`
-  display: block;
+const QuestionWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 10px;
   font-size: 42px;
+
+  div {
+    flex-grow: 1;
+    flex-basis: 0;
+  }
 `
 
-const Option = styled.div`
-  display: inline-block;
-  width: 120px;
-  text-align: left;
-`
-
-const Operator = styled.div`
-  display: inline-block;
-  width: 120px;
-  text-align: left;
-`
-
-const Answer = styled.div`
-  display: inline-block;
-
+const AnswerWrapper = styled.div`
   input {
     appearance: none;
     width: 120px;
@@ -36,7 +30,7 @@ const Answer = styled.div`
 const Results = styled.div`
   display: inline-block;
   text-align: right;
-  width: auto;
+  width: 25%;
 `
 
 export default ({
@@ -44,26 +38,28 @@ export default ({
   storeAnswer,
   showResults,
   userAnswers,
+}: {
+  questions: Question[]
+  storeAnswer: (key: number, value: string) => void
+  showResults: boolean
+  userAnswers: Answer
 }): JSX.Element => (
   <Container>
-    {questions.map((question, key) => (
-      <Question key={key}>
-        <Option>{question.a}</Option>
-        <Operator>{question.operator}</Operator>
-        <Option>{question.b}</Option>
-        <Answer>
-          <input
-            type="tel"
-            onChange={e => storeAnswer(key, e.target.value)}
-          />
-        </Answer>
+    {questions.map(({ a, operator, b }, key) => (
+      <QuestionWrapper key={key}>
+        <div>{a}</div>
+        <div>{operator}</div>
+        <div>{b}</div>
+        <AnswerWrapper>
+          <input type="tel" onChange={e => storeAnswer(key, e.target.value)} />
+        </AnswerWrapper>
         {showResults && (
           <Results>
             {key in userAnswers &&
               (userAnswers[key] === true ? 'Correct' : 'Incorrect')}
           </Results>
         )}
-      </Question>
+      </QuestionWrapper>
     ))}
   </Container>
 )

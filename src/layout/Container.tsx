@@ -8,7 +8,7 @@ const Container = styled.div`
 `
 
 type ContainerProps = {
-  children: JSX.Element
+  children: unknown
 }
 
 export default ({ children }: ContainerProps): JSX.Element => (

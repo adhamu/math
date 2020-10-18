@@ -4,6 +4,7 @@ import styled from '@emotion/styled'
 import Header from '@layout/Header'
 import Container from '@layout/Container'
 import Questions from '@components/Questions'
+import { Answer, Question } from './types'
 
 const GlobalStyle = css`
   * {
@@ -42,13 +43,10 @@ const Button = styled.button`
 
 const ShowResults = styled(Button)`
   background: green;
+  float: right;
 `
 
 const Main = styled.div``
-
-type Answer = {
-  [key in number]: boolean
-}
 
 const App = (): JSX.Element => {
   const [userAnswers, setUserAnswers] = useState<Answer>()
@@ -84,7 +82,7 @@ const App = (): JSX.Element => {
     // eslint-disable-next-line no-eval
     eval(`${a} ${operator} ${b}`)
 
-  const generateRandomQuestions = () =>
+  const generateRandomQuestions = (): Question[] =>
     Array.from({ length: 30 }).map(() => {
       const a = Math.floor(Math.random() * 20) + 1
       const b = Math.floor(Math.random() * 20) + 1
@@ -97,7 +95,7 @@ const App = (): JSX.Element => {
       }
     })
 
-  const generateQuestions = (pow: number) =>
+  const generateQuestions = (pow: number): Question[] =>
     Array.from({ length: 30 }).map((_, i) => ({
       a: i,
       operator: operator,
@@ -111,6 +109,10 @@ const App = (): JSX.Element => {
       <Header />
       <Container>
         <>
+          <ShowResults
+            onClick={() => userAnswers && setShowResults(!showResults)}>
+            Show Results
+          </ShowResults>
           <Button onClick={() => setQuestions(generateRandomQuestions())}>
             Generate Random Questions
           </Button>
@@ -139,10 +141,6 @@ const App = (): JSX.Element => {
             </Button>
           ))}
           <br />
-          <ShowResults
-            onClick={() => userAnswers && setShowResults(!showResults)}>
-            Show Results
-          </ShowResults>
         </>
       </Container>
       <Questions
