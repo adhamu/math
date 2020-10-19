@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Global, css } from '@emotion/core'
 import styled from '@emotion/styled'
 import Header from '@layout/Header'
@@ -72,6 +72,7 @@ const App = (): JSX.Element => {
   const [showResults, setShowResults] = useState(false)
   const [questions, setQuestions] = useState([])
   const [operator, setOperator] = useState('+')
+  const questionsRef = useRef(null)
 
   useEffect(() => {
     setQuestions(generateRandomQuestions())
@@ -84,6 +85,7 @@ const App = (): JSX.Element => {
   useEffect(() => {
     setUserAnswers({})
     setShowResults(false)
+    questionsRef.current.reset()
   }, [questions])
 
   const storeAnswer = (question: number, answer: string) => {
@@ -159,12 +161,14 @@ const App = (): JSX.Element => {
           <br /> */}
         </Container>
       </Toolbar>
-      <Questions
-        questions={questions}
-        storeAnswer={storeAnswer}
-        showResults={showResults}
-        userAnswers={userAnswers}
-      />
+      <form onSubmit={e => e.preventDefault()} ref={questionsRef}>
+        <Questions
+          questions={questions}
+          storeAnswer={storeAnswer}
+          showResults={showResults}
+          userAnswers={userAnswers}
+        />
+      </form>
     </Main>
   )
 }
