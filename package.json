@@ -1,7 +1,10 @@
 {
+  "homepage": "http://adhamu.github.io/math",
   "scripts": {
     "build": "webpack --mode production",
-    "dev": "webpack serve --mode development --env development"
+    "dev": "webpack serve --mode development --env development",
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build"
   },
   "devDependencies": {
     "@emotion/core": "^10.0.35",
@@ -25,5 +28,8 @@
     "webpack": "^5.1.3",
     "webpack-cli": "^4.0.0",
     "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {
+    "gh-pages": "^3.1.0"
   }
 }
