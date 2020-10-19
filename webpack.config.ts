@@ -8,7 +8,7 @@ const config: webpack.Configuration = {
     historyApiFallback: true,
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
-    port: 3000,
+    port: 7000,
   },
   module: {
     rules: [
