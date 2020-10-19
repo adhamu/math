@@ -36,9 +36,9 @@ const config: webpack.Configuration = {
     },
   },
   output: {
-    filename: 'bundle.js',
+    filename: './bundle.js',
     path: path.resolve(__dirname, 'build'),
-    publicPath: '/math',
+    publicPath: '/',
   },
   plugins: [
     new HtmlWebPackPlugin({
