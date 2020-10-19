@@ -63,9 +63,13 @@ const OperatorToggle = styled(Button)`
 const Toolbar = styled.div`
   background: #efefef;
   padding: 20px 0 15px;
+  position: fixed;
+  width: 100%;
+  top: 65px;
 `
 
-const Main = styled.div``
+const Main = styled.div`
+`
 
 const App = (): JSX.Element => {
   const [userAnswers, setUserAnswers] = useState<Answer>()

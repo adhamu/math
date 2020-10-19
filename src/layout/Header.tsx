@@ -9,6 +9,8 @@ const Header = styled.div`
   width: 100%;
   z-index: 1;
   color: purple;
+  position: fixed;
+  background: #fff;
 
   &:after {
     content: '';

@@ -3,6 +3,10 @@ import Container from '@layout/Container'
 import styled from '@emotion/styled'
 import { Answer, Question } from '@global/types'
 
+const QuestionList = styled.div`
+  padding-top: 150px;
+`
+
 const QuestionWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -44,22 +48,27 @@ export default ({
   showResults: boolean
   userAnswers: Answer
 }): JSX.Element => (
-  <Container>
-    {questions.map(({ a, operator, b }, key) => (
-      <QuestionWrapper key={key}>
-        <div>{a}</div>
-        <div>{operator}</div>
-        <div>{b}</div>
-        <AnswerWrapper>
-          <input type="tel" onChange={e => storeAnswer(key, e.target.value)} />
-        </AnswerWrapper>
-        {
-          <Results style={{ visibility: showResults ? 'visible' : 'hidden' }}>
-            {key in userAnswers &&
-              (userAnswers[key] === true ? 'Correct' : 'Incorrect')}
-          </Results>
-        }
-      </QuestionWrapper>
-    ))}
-  </Container>
+  <QuestionList>
+    <Container>
+      {questions.map(({ a, operator, b }, key) => (
+        <QuestionWrapper key={key}>
+          <div>{a}</div>
+          <div>{operator}</div>
+          <div>{b}</div>
+          <AnswerWrapper>
+            <input
+              type="tel"
+              onChange={e => storeAnswer(key, e.target.value)}
+            />
+          </AnswerWrapper>
+          {
+            <Results style={{ visibility: showResults ? 'visible' : 'hidden' }}>
+              {key in userAnswers &&
+                (userAnswers[key] === true ? 'Correct' : 'Incorrect')}
+            </Results>
+          }
+        </QuestionWrapper>
+      ))}
+    </Container>
+  </QuestionList>
 )
