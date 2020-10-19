@@ -9,7 +9,6 @@ const Header = styled.div`
   width: 100%;
   z-index: 1;
   color: purple;
-  margin-bottom: 20px;
 
   &:after {
     content: '';

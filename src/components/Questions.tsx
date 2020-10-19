@@ -53,12 +53,12 @@ export default ({
         <AnswerWrapper>
           <input type="tel" onChange={e => storeAnswer(key, e.target.value)} />
         </AnswerWrapper>
-        {showResults && (
-          <Results>
+        {
+          <Results style={{ visibility: showResults ? 'visible' : 'hidden' }}>
             {key in userAnswers &&
               (userAnswers[key] === true ? 'Correct' : 'Incorrect')}
           </Results>
-        )}
+        }
       </QuestionWrapper>
     ))}
   </Container>

@@ -5,7 +5,6 @@ import Header from '@layout/Header'
 import Container from '@layout/Container'
 import Questions from '@components/Questions'
 import { Answer, Question } from './types'
-import OperatorToggle from './components/OperatorToggle'
 
 const GlobalStyle = css`
   * {
@@ -33,18 +32,37 @@ const GlobalStyle = css`
 
 const Button = styled.button`
   background: purple;
+  border: 2px solid purple;
   color: #fff;
   padding: 10px 15px;
   border-radius: 4px;
   font-weight: bold;
-  border: none;
   font-size: 16px;
   cursor: pointer;
+  margin-bottom: 5px;
+  margin-right: 5px;
 `
 
 const ShowResults = styled(Button)`
   background: green;
+  border: 2px solid green;
   float: right;
+`
+
+const OperatorToggle = styled(Button)`
+  background: #fff;
+  border: 2px solid blue;
+  color: blue;
+
+  &.active {
+    background: blue;
+    color: #fff;
+  }
+`
+
+const Toolbar = styled.div`
+  background: #efefef;
+  padding: 20px 0 15px;
 `
 
 const Main = styled.div``
@@ -85,8 +103,8 @@ const App = (): JSX.Element => {
 
   const generateRandomQuestions = (): Question[] =>
     Array.from({ length: 30 }).map(() => {
-      const a = Math.floor(Math.random() * 20) + 1
       const b = Math.floor(Math.random() * 20) + 1
+      const a = Math.floor(Math.random() * 20) + b
 
       return {
         a,
@@ -108,8 +126,8 @@ const App = (): JSX.Element => {
     <Main>
       <Global styles={GlobalStyle} />
       <Header />
-      <Container>
-        <>
+      <Toolbar>
+        <Container>
           <ShowResults
             onClick={() => userAnswers && setShowResults(!showResults)}>
             Show Results
@@ -117,35 +135,18 @@ const App = (): JSX.Element => {
           <Button onClick={() => setQuestions(generateRandomQuestions())}>
             Generate Random Questions
           </Button>
-          <br />
           <OperatorToggle
-            options={[
-              {
-                name: 'Adding',
-                checked: operator === '+',
-                onChange: () => addMode(),
-              },
-              {
-                name: 'Subtracting',
-                checked: operator === '-',
-                onChange: () => subtractMode(),
-              },
-            ]}
-          />
-          <label>
-            Adding{' '}
-            <input type="radio" checked={operator === '+'} onClick={addMode} />
-          </label>
-          <label>
-            Subtracting{' '}
-            <input
-              type="radio"
-              checked={operator === '-'}
-              onClick={subtractMode}
-            />
-          </label>
+            className={operator === '+' ? 'active' : ''}
+            onClick={addMode}>
+            Adding
+          </OperatorToggle>
+          <OperatorToggle
+            className={operator === '-' ? 'active' : ''}
+            onClick={subtractMode}>
+            Subtracting
+          </OperatorToggle>
           <br />
-          {Array.from({ length: 15 }).map((_, key) => (
+          {/* {Array.from({ length: 15 }).map((_, key) => (
             <Button
               key={key}
               onClick={() => {
@@ -155,9 +156,9 @@ const App = (): JSX.Element => {
               {key + 1}
             </Button>
           ))}
-          <br />
-        </>
-      </Container>
+          <br /> */}
+        </Container>
+      </Toolbar>
       <Questions
         questions={questions}
         storeAnswer={storeAnswer}
