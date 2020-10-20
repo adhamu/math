@@ -73,7 +73,6 @@ const Main = styled.div`
 
 const App = (): JSX.Element => {
   const [userAnswers, setUserAnswers] = useState<Answer>()
-  const [showResults, setShowResults] = useState(false)
   const [questions, setQuestions] = useState([])
   const [operator, setOperator] = useState('+')
   const questionsRef = useRef(null)
@@ -88,12 +87,10 @@ const App = (): JSX.Element => {
 
   useEffect(() => {
     setUserAnswers({})
-    setShowResults(false)
     questionsRef.current.reset()
   }, [questions])
 
   const storeAnswer = (question: number, answer: string) => {
-    setShowResults(false)
     setUserAnswers({
       ...userAnswers,
       [question]: questions[question].answer === Number(answer),
@@ -134,10 +131,6 @@ const App = (): JSX.Element => {
       <Header />
       <Toolbar>
         <Container>
-          <ShowResults
-            onClick={() => userAnswers && setShowResults(!showResults)}>
-            Show Results
-          </ShowResults>
           <Button onClick={() => setQuestions(generateRandomQuestions())}>
             Generate Random Questions
           </Button>
@@ -169,7 +162,6 @@ const App = (): JSX.Element => {
         <Questions
           questions={questions}
           storeAnswer={storeAnswer}
-          showResults={showResults}
           userAnswers={userAnswers}
         />
       </form>
