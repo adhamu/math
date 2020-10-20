@@ -63,13 +63,61 @@ const Toolbar = styled.div`
   z-index: 1;
 `
 
-const Main = styled.div`
+const Difficulty = styled.div`
+  font-weight: 600;
+  border-radius: 4px;
+  float: right;
+  border: 2px solid red;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+  cursor: pointer;
+
+  input {
+    padding: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    background: #fff;
+    outline: none;
+    -webkit-transition: 0.2s;
+    transition: opacity 0.2s;
+    position: relative;
+    border-bottom-left-radius: 8px;
+    border-top-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-top-right-radius: 8px;
+    cursor: pointer;
+
+    &:after {
+      content: 'Difficulty';
+      position: absolute;
+      left: 25%;
+      top: 25%;
+      color: #000;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    &::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 35px;
+      height: 40px;
+      background: red;
+      border-radius: 4px;
+    }
+  }
 `
+
+const Main = styled.div``
 
 const App = (): JSX.Element => {
   const [userAnswers, setUserAnswers] = useState<Answer>()
   const [questions, setQuestions] = useState([])
   const [operator, setOperator] = useState('+')
+  const [difficulty, setDifficulty] = useState(20)
   const questionsRef = useRef(null)
 
   useEffect(() => {
@@ -78,7 +126,7 @@ const App = (): JSX.Element => {
 
   useEffect(() => {
     setQuestions(generateRandomQuestions())
-  }, [operator])
+  }, [operator, difficulty])
 
   useEffect(() => {
     setUserAnswers({})
@@ -101,8 +149,8 @@ const App = (): JSX.Element => {
 
   const generateRandomQuestions = (): Question[] =>
     Array.from({ length: 30 }).map(() => {
-      const b = Math.floor(Math.random() * 20) + 1
-      const a = Math.floor(Math.random() * 20) + b
+      const b = Math.floor(Math.random() * difficulty) + 1
+      const a = Math.floor(Math.random() * difficulty) + b
 
       return {
         a,
@@ -131,18 +179,18 @@ const App = (): JSX.Element => {
             onClick={subtractMode}>
             Subtracting
           </OperatorToggle>
-          <br />
-          {/* {Array.from({ length: 15 }).map((_, key) => (
-            <Button
-              key={key}
-              onClick={() => {
-                setQuestions(generateQuestions(key + 1))
-                setUserAnswers({})
-              }}>
-              {key + 1}
-            </Button>
-          ))}
-          <br /> */}
+          <Difficulty>
+            <input
+              type="range"
+              min="20"
+              value={difficulty}
+              step="20"
+              max="100"
+              onChange={e => setDifficulty(Number(e.target.value))}
+              className="slider"
+              id="myRange"
+            />
+          </Difficulty>
         </Container>
       </Toolbar>
       <form onSubmit={e => e.preventDefault()} ref={questionsRef}>
