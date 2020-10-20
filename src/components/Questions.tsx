@@ -15,7 +15,7 @@ const QuestionWrapper = styled.div`
   font-size: 42px;
 
   div {
-    flex-grow: 1;
+    flex-grow: 0.5;
     flex-basis: 0;
   }
 `
@@ -33,8 +33,34 @@ const AnswerWrapper = styled.div`
 
 const Results = styled.div`
   display: inline-block;
-  text-align: right;
+  text-align: left;
   width: 25%;
+`
+
+const Correct = styled.span`
+  color: green;
+  position: relative;
+  display: inline-block;
+
+  &:before {
+    position: absolute;
+    right: -55px;
+    top: 4px;
+    content: '💘'
+  }
+`
+
+const Incorrect = styled.span`
+  color: red;
+  position: relative;
+  display: inline-block;
+
+  &:before {
+    position: absolute;
+    right: -55px;
+    top: 4px;
+    content: '💩'
+  }
 `
 
 export default ({
@@ -79,7 +105,11 @@ export default ({
                 style={{
                   visibility: isResultsVisible[key] ? 'visible' : 'hidden',
                 }}>
-                {userAnswers[key] === true ? 'Correct' : 'Incorrect'}
+                {userAnswers[key] === true ? (
+                  <Correct>Correct</Correct>
+                ) : (
+                  <Incorrect>Incorrect</Incorrect>
+                )}
               </Results>
             }
           </QuestionWrapper>

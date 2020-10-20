@@ -43,12 +43,6 @@ const Button = styled.button`
   margin-right: 5px;
 `
 
-const ShowResults = styled(Button)`
-  background: green;
-  border: 2px solid green;
-  float: right;
-`
-
 const OperatorToggle = styled(Button)`
   background: #fff;
   border: 2px solid blue;
@@ -66,6 +60,7 @@ const Toolbar = styled.div`
   position: fixed;
   width: 100%;
   top: 65px;
+  z-index: 1;
 `
 
 const Main = styled.div`
@@ -116,14 +111,6 @@ const App = (): JSX.Element => {
         answer: calculateAnswer(a, b),
       }
     })
-
-  const generateQuestions = (pow: number): Question[] =>
-    Array.from({ length: 30 }).map((_, i) => ({
-      a: i,
-      operator: operator,
-      b: pow,
-      answer: calculateAnswer(i, pow),
-    }))
 
   return (
     <Main>
