@@ -91,9 +91,9 @@ const Difficulty = styled.div`
     cursor: pointer;
 
     &:after {
-      content: 'Difficulty';
+      content: '- Difficulty +';
       position: absolute;
-      left: 25%;
+      left: 15%;
       top: 25%;
       color: #000;
       font-weight: 600;
