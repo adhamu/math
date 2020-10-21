@@ -167,17 +167,17 @@ const App = (): JSX.Element => {
       <Toolbar>
         <Container>
           <Button onClick={() => setQuestions(generateRandomQuestions())}>
-            Generate Questions
+            Start
           </Button>
           <OperatorToggle
             className={operator === '+' ? 'active' : ''}
             onClick={addMode}>
-            Adding
+            Add
           </OperatorToggle>
           <OperatorToggle
             className={operator === '-' ? 'active' : ''}
             onClick={subtractMode}>
-            Subtracting
+            Subtract
           </OperatorToggle>
           <Difficulty>
             <input
