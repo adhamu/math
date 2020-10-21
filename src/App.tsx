@@ -167,7 +167,7 @@ const App = (): JSX.Element => {
       <Toolbar>
         <Container>
           <Button onClick={() => setQuestions(generateRandomQuestions())}>
-            Generate Random Questions
+            Generate Questions
           </Button>
           <OperatorToggle
             className={operator === '+' ? 'active' : ''}
